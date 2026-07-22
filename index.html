@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Полный цикл организации бизнес-конференций, корпоративных мероприятий, MICE-туров и событий под ключ. Инженерный подход, прозрачные цены.">
+    <meta name="keywords" content="организация конференций, корпоратив, тимбилдинг, MICE, туры, событие, продакшн">
+    <title>ARTLIFE.ENGINE — Платформа для бизнес-событий и MICE-туров</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш-api-ключ&lang=ru_RU" type="text/javascript"></script>
+    <style>
+        /* ============ ВСЕ СТИЛИ (сохранены как в твоём файле) ============ */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #030712;
+            color: #f3f4f6;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; color: inherit; }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #22d3ee, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-subtitle { text-align: center; color: #9ca3af; font-size: 1.1rem; margin-bottom: 3rem; }
+        .btn-primary {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #06b6d4, #4f46e5);
+            color: #fff;
+            font-weight: 700;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(6,182,212,0.3);
+            font-size: 1rem;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(6,182,212,0.5); }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #22d3ee;
+            color: #22d3ee;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-outline:hover { background: rgba(34,211,238,0.1); }
+        .btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+        .btn-wide { width: 100%; }
+
+        /* Хедер */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(3,7,18,0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #1f2937;
+            z-index: 999;
+            padding: 0 20px;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .logo { font-size: 1.6rem; font-weight: 900; color: #06b6d4; letter-spacing: 1px; cursor: pointer; }
+        .logo span { color: #fff; }
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 30px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(34,211,238,0.1);
+            color: #22d3ee;
+        }
+        .header-icons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .header-icon-wrap {
+            position: relative;
+            color: #cbd5e1;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .header-icon-wrap:hover { color: #22d3ee; }
+        .header-icon-wrap .badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 30px;
+            min-width: 18px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        .menu-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; }
+
+        /* Страницы (SPA) */
+        .page { display: none; padding-top: 90px; animation: fadeIn 0.4s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
+
+        /* Hero */
+        .hero { text-align: center; padding: 40px 0 60px; }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
+        .hero h1 span { background: linear-gradient(135deg, #22d3ee, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: #9ca3af; font-size: 1.2rem; max-width: 700px; margin: 0 auto 2rem; line-height: 1.6; }
+        .badge {
+            display: inline-block;
+            background: rgba(99,102,241,0.15);
+            border: 1px solid rgba(99,102,241,0.3);
+            color: #818cf8;
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Карточки услуг */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 2rem 0;
+        }
+        .card {
+            background: rgba(17,24,39,0.6);
+            border: 1px solid #1f2937;
+            border-radius: 24px;
+            padding: 28px 24px;
+            transition: border 0.3s, transform 0.2s;
+            backdrop-filter: blur(4px);
+        }
+        .card:hover { border-color: #06b6d4; transform: translateY(-6px); }
+        .card i { font-size: 2.2rem; color: #22d3ee; margin-bottom: 12px; }
+        .card h3 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
+        .card p { color: #9ca3af; font-size: 0.95rem; line-height: 1.6; }
+        .card ul { list-style: none; margin-top: 16px; }
+        .card ul li { color: #cbd5e1; font-size: 0.9rem; padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+        .card ul li::before { content: "✓"; color: #06b6d4; font-weight: 700; }
+
+        /* График */
+        .bar-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 200px;
+            gap: 20px;
+            margin: 20px 0 10px;
+            padding: 0 10px;
+        }
+        .chart-column {
+            flex: 1;
+            background: linear-gradient(0deg, #06b6d4, #4f46e5);
+            border-radius: 8px 8px 0 0;
+            min-width: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 6px;
+            position: relative;
+            transition: 0.3s;
+        }
+        .chart-column .chart-label {
+            color: #cbd5e1;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 8px;
+            writing-mode: horizontal-tb;
+        }
+
+        /* Калькулятор (существующий) */
+        .calc-wrapper {
+            background: linear-gradient(145deg, #0f172a, #020617);
+            border: 1px solid #1f2937;
+            border-radius: 32px;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label { font-size: 0.85rem; font-weight: 600; color: #9ca3af; }
+        .form-group select, .form-group input {
+            height: 48px;
+            background: #030712;
+            border: 1px solid #374151;
+            border-radius: 14px;
+            color: #fff;
+            padding: 0 16px;
+            font-size: 0.95rem;
+            transition: border 0.2s;
+        }
+        .form-group select:focus, .form-group input:focus { border-color: #06b6d4; outline: none; }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+            gap: 12px;
+            margin: 16px 0 24px;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0b1424;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .option-item:hover { border-color: #4f46e5; }
+        .option-item input[type="checkbox"] { accent-color: #06b6d4; width: 18px; height: 18px; flex-shrink: 0; }
+        .result-panel {
+            background: #030712;
+            border: 1px solid #1f2937;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .result-price { font-size: 2.8rem; font-weight: 900; color: #22d3ee; }
+
+        /* Модальное окно (общее) */
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(3,7,18,0.85);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: #0f172a;
+            border: 1px solid #1f2937;
+            border-radius: 28px;
+            padding: 36px 32px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s;
+        }
+        .modal-box h3 { font-size: 1.6rem; margin-bottom: 6px; }
+        .modal-box p { color: #9ca3af; margin-bottom: 20px; }
+        .modal-box input, .modal-box textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #030712;
+            border: 1px solid #374151;
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        .modal-box .btn-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; }
+
+        /* Футер */
+        footer {
+            background: #050b17;
+            border-top: 1px solid #1f2937;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .footer-grid h4 { color: #fff; margin-bottom: 12px; font-size: 1.1rem; }
+        .footer-grid a { color: #9ca3af; display: block; margin: 6px 0; transition: 0.2s; cursor: pointer; }
+        .footer-grid a:hover { color: #22d3ee; }
+        .copyright { text-align: center; color: #4b5563; font-size: 0.8rem; border-top: 1px solid #1f2937; padding-top: 20px; }
+
+        /* ============ СТИЛИ ДЛЯ МАГАЗИНА (МЕРЧ) ============ */
+        .shop-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 30px;
+            background: #0b1424;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid #1f2937;
+            align-items: flex-end;
+        }
+        .shop-controls .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            flex: 1;
+        }
+        .shop-controls .filter-group select,
+        .shop-controls .filter-group input {
+            background: #030712;
+            border: 1px solid #374151;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            outline: none;
+            min-width: 140px;
+        }
+        .shop-controls .filter-group select:focus,
+        .shop-controls .filter-group input:focus { border-color: #06b6d4; }
+        .shop-controls .price-range { display: flex; gap: 8px; align-items: center; }
+        .shop-controls .price-range input { width: 100px; }
+        .shop-controls .filter-actions { display: flex; gap: 8px; align-items: center; }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        .product-card {
+            background: #0b1424;
+            border: 1px solid #1f2937;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover { border-color: #06b6d4; transform: translateY(-4px); box-shadow: 0 8px 30px rgba(6,182,212,0.1); }
+        .product-card .image {
+            height: 180px;
+            background: #1a2332;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .product-card .image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-card .image .quick-view {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(3,7,18,0.8);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+        }
+        .product-card .image .quick-view:hover { background: #06b6d4; }
+        .product-card .info {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card .info .name { font-weight: 600; font-size: 1rem; margin-bottom: 6px; line-height: 1.3; color: #fff; }
+        .product-card .info .category { font-size: 0.75rem; color: #6b7280; margin-bottom: 6px; }
+        .product-card .info .price { font-size: 1.2rem; font-weight: 700; color: #22d3ee; margin: 8px 0; }
+        .product-card .info .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+            flex-wrap: wrap;
+        }
+        .product-card .info .actions button {
+            flex: 1;
+            padding: 8px 0;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            min-width: 40px;
+        }
+        .product-card .info .actions .add-to-cart {
+            background: linear-gradient(135deg, #06b6d4, #4f46e5);
+            color: #fff;
+        }
+        .product-card .info .actions .add-to-cart:hover { opacity: 0.8; }
+        .product-card .info .actions .add-to-cart.in-cart { background: #10b85c; }
+        .product-card .info .actions .icon-btn {
+            flex: 0 0 40px;
+            background: transparent;
+            color: #9ca3af;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .product-card .info .actions .icon-btn:hover { border-color: #22d3ee; color: #22d3ee; }
+        .product-card .info .actions .icon-btn.active { color: #ef4444; border-color: #ef4444; }
+        .product-card .info .actions .icon-btn.compare-active { color: #f59e0b; border-color: #f59e0b; }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 30px 0;
+        }
+        .pagination button {
+            background: #0b1424;
+            border: 1px solid #1f2937;
+            color: #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .pagination button:hover { border-color: #06b6d4; color: #fff; }
+        .pagination button.active { background: #06b6d4; border-color: #06b6d4; color: #fff; }
+
+        /* Корзина в модалке */
+        .modal-box.cart-modal { max-width: 600px; }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #1f2937;
+        }
+        .cart-item .item-info { display: flex; flex-direction: column; }
+        .cart-item .item-name { font-weight: 500; }
+        .cart-item .item-price { color: #22d3ee; }
+        .cart-item .item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cart-item .item-qty button {
+            background: #1f2937;
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .cart-item .item-qty span { min-width: 24px; text-align: center; }
+        .cart-total {
+            margin: 16px 0;
+            text-align: right;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #22d3ee;
+        }
+
+        /* Быстрый просмотр */
+        .quick-view-modal .modal-box { max-width: 700px; }
+        .product-detail {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .product-detail .left { flex: 1 1 200px; }
+        .product-detail .left img { width: 100%; border-radius: 12px; }
+        .product-detail .right { flex: 2 1 300px; }
+        .product-detail .right .name { font-size: 1.4rem; font-weight: 700; color: #fff; }
+        .product-detail .right .price { font-size: 1.8rem; color: #22d3ee; margin: 12px 0; }
+        .product-detail .right .desc { color: #9ca3af; margin: 12px 0; line-height: 1.6; }
+        .product-detail .right .actions { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+
+        /* Уведомление */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0f172a;
+            border: 1px solid #22d3ee;
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: none;
+            font-weight: 500;
+            animation: fadeIn 0.3s;
+        }
+        .notification.show { display: block; }
+
+        /* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ (таймер, статистика, чат и т.д.) ===== */
+        .timer-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .timer-item {
+            background: #0b1424;
+            border: 1px solid #1f2937;
+            border-radius: 16px;
+            padding: 16px 24px;
+            min-width: 100px;
+            text-align: center;
+        }
+        .timer-item .num { font-size: 2.8rem; font-weight: 800; color: #22d3ee; display: block; }
+        .timer-item .label { font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+            gap: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .stat-item .stat-number { font-size: 3rem; font-weight: 900; color: #22d3ee; }
+        .stat-item .stat-label { color: #9ca3af; font-size: 0.9rem; }
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .chat-bubble {
+            background: #0f172a;
+            border: 1px solid #1f2937;
+            border-radius: 18px 18px 18px 4px;
+            padding: 14px 18px;
+            max-width: 260px;
+            margin-bottom: 12px;
+            display: none;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            color: #e5e7eb;
+            font-size: 0.9rem;
+        }
+        .chat-bubble.show { display: block; animation: fadeIn 0.3s; }
+        .chat-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #4f46e5);
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(6,182,212,0.4);
+            transition: 0.3s;
+        }
+        .chat-btn:hover { transform: scale(1.05); }
+        .drop-zone {
+            border: 2px dashed #374151;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+            transition: 0.3s;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        .drop-zone.dragover { border-color: #22d3ee; background: rgba(34,211,238,0.05); }
+        .drop-zone i { font-size: 2.5rem; margin-bottom: 10px; }
+        .roi-calc {
+            background: #0b1424;
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid #1f2937;
+            margin: 20px 0;
+        }
+        .roi-calc .form-row { grid-template-columns: 1fr 1fr 1fr; }
+        .roi-result { font-size: 2rem; font-weight: 800; color: #10b85c; }
+        .tour-card {
+            background: #0b1424;
+            border-radius: 20px;
+            border: 1px solid #1f2937;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .tour-card .price { color: #22d3ee; font-weight: 700; font-size: 1.2rem; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+            gap: 16px;
+        }
+        .gallery-item {
+            background: #1f2937;
+            aspect-ratio: 1/0.8;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4b5563;
+            font-size: 0.9rem;
+            border: 1px solid #374151;
+            transition: 0.3s;
+            flex-direction: column;
+        }
+        .gallery-item:hover { border-color: #22d3ee; }
+        .gallery-item i { font-size: 2.4rem; color: #6b7280; }
+        #map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 24px;
+            border: 1px solid #1f2937;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; width: 100%; flex-direction: column; background: #030712; padding: 20px; }
+            .nav-links.open { display: flex; }
+            .menu-toggle { display: block; }
+            .form-row { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.4rem; }
+            .section-title { font-size: 1.8rem; }
+            .header-inner { flex-wrap: wrap; height: auto; padding: 12px 0; }
+            .shop-controls { flex-direction: column; align-items: stretch; }
+            .shop-controls .filter-group { flex-direction: column; }
+            .shop-controls .price-range input { width: 100%; }
+            .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .header-icons .header-icon-wrap .badge { top: -6px; right: -8px; font-size: 0.5rem; }
+            .roi-calc .form-row { grid-template-columns: 1fr; }
+        }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { flex: 1; justify-content: flex-start; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-inner">
+        <a href="#" class="logo" onclick="navigateTo('home')">ARTLIFE<span>.ENGINE</span></a>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Меню"><i class="fas fa-bars"></i></button>
+        <nav class="nav-links" id="mainNav">
+            <a class="active" onclick="navigateTo('home')">Главная</a>
+            <a onclick="navigateTo('services')">Услуги</a>
+            <a onclick="navigateTo('conferences')">Конференции</a>
+            <a onclick="navigateTo('tours')">Туры &amp; MICE</a>
+            <a onclick="navigateTo('portfolio')">Портфолио</a>
+            <a onclick="navigateTo('shop')">Каталог</a>
+            <a onclick="navigateTo('about')">О нас</a>
+            <a onclick="navigateTo('contacts')">Контакты</a>
+            <a onclick="navigateTo('calculator')">Калькулятор</a>
+        </nav>
+        <div class="header-icons">
+            <span class="header-icon-wrap" onclick="toggleFavoriteList()" title="Избранное">
+                <i class="fas fa-heart"></i>
+                <span class="badge" id="favoriteCount">0</span>
+            </span>
+            <span class="header-icon-wrap" onclick="toggleCompareList()" title="Сравнение">
+                <i class="fas fa-balance-scale"></i>
+                <span class="badge" id="compareCount">0</span>
+            </span>
+            <span class="header-icon-wrap" onclick="openCartModal()" title="Корзина">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge" id="cartCount">0</span>
+            </span>
+            <button id="loginBtn" class="btn-outline btn-sm" onclick="openAuthModal('login')" style="display:inline-block;">Войти</button>
+            <button id="registerBtn" class="btn-primary btn-sm" onclick="openAuthModal('register')" style="display:inline-block;">Регистрация</button>
+            <span id="userGreeting" style="display:none; color:#22d3ee; margin:0 8px;"></span>
+            <button id="logoutBtn" style="display:none;" class="btn-outline btn-sm" onclick="logout()">Выйти</button>
+        </div>
+        <button id="addServiceBtn" class="btn-primary btn-sm" onclick="document.getElementById('addServiceModal').classList.add('open')" style="display:none;">
+            <i class="fas fa-plus"></i> Добавить услугу
+        </button>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- ======== ГЛАВНАЯ ======== -->
+    <section id="page-home" class="page active">
+        <div class="hero">
+            <span class="badge"><i class="fas fa-rocket"></i> Лидер рынка событий 2026</span>
+            <h1>Инжиниринг <span>крупных бизнес-событий</span> и MICE-туров</h1>
+            <p>Полный цикл организации: от стратегии и технического продакшна до пост-релиза. Работаем с корпоративными клиентами, ассоциациями и event-агентствами.</p>
+            <div class="flex" style="justify-content:center;">
+                <button class="btn-primary" onclick="navigateTo('calculator')"><i class="fas fa-calculator"></i> Рассчитать проект</button>
+                <button class="btn-outline" onclick="openLeadModal()"><i class="fas fa-paper-plane"></i> Получить консультацию</button>
+            </div>
+        </div>
+
+        <div style="background:linear-gradient(135deg,#0f172a,#020617); border-radius:24px; padding:24px; margin-bottom:2rem; border:1px solid #1f2937;">
+            <h3 style="text-align:center; color:#fff; margin-bottom:8px;"><i class="fas fa-clock" style="color:#22d3ee;"></i> До ближайшего форума осталось:</h3>
+            <div class="timer-wrapper" id="countdownTimer">
+                <div class="timer-item"><span class="num" id="days">00</span><span class="label">Дней</span></div>
+                <div class="timer-item"><span class="num" id="hours">00</span><span class="label">Часов</span></div>
+                <div class="timer-item"><span class="num" id="minutes">00</span><span class="label">Минут</span></div>
+                <div class="timer-item"><span class="num" id="seconds">00</span><span class="label">Секунд</span></div>
+            </div>
+            <p class="text-center text-muted" style="font-size:0.9rem;">Форум «Технологии будущего» — 15 сентября 2026</p>
+        </div>
+
+        <div class="stats-grid" id="statNumbers">
+            <div class="stat-item"><div class="stat-number" data-target="250">0</div><div class="stat-label">Мероприятий проведено</div></div>
+            <div class="stat-item"><div class="stat-number" data-target="1200">0</div><div class="stat-label">Довольных клиентов</div></div>
+            <div class="stat-item"><div class="stat-number" data-target="10">0</div><div class="stat-label">Лет на рынке</div></div>
+            <div class="stat-item"><div class="stat-number" data-target="98">0</div><div class="stat-label">% повторных обращений</div></div>
+        </div>
+
+        <div id="venuesGrid" class="grid-3" style="margin-bottom: 3rem;"></div>
+
+        <div style="background:#090d16; border:1px solid #1e293b; border-radius:24px; padding:28px; margin-bottom:2.5rem;">
+            <h3 style="color:#fff; font-size:1.4rem;"><i class="fas fa-chart-line" style="color:#22d3ee;"></i> Аналитика рынка 2026</h3>
+            <p style="color:#6b7280; font-size:0.9rem;">Распределение бюджетов корпоративных событий</p>
+            <div class="bar-chart" style="margin-top:20px;">
+                <div class="chart-column" style="height:82%; background:linear-gradient(0deg,#06b6d4,#4f46e5);"><span class="chart-label">Тех. продакшн 42%</span></div>
+                <div class="chart-column" style="height:54%; background:linear-gradient(0deg,#8b5cf6,#6d28d9);"><span class="chart-label">Кейтеринг 28%</span></div>
+                <div class="chart-column" style="height:36%; background:linear-gradient(0deg,#ec4899,#db2777);"><span class="chart-label">Локация 18%</span></div>
+                <div class="chart-column" style="height:26%; background:linear-gradient(0deg,#f59e0b,#d97706);"><span class="chart-label">Маркетинг 12%</span></div>
+            </div>
+            <p style="color:#4b5563; font-size:0.75rem; margin-top:8px;">*Данные исследования MICE-рынка 2026</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; margin-bottom:2rem;">
+            <div class="card"><i class="fas fa-quote-left" style="color:#4f46e5;"></i><p style="margin:10px 0; font-style:italic;">"Организовали форум на 2000 человек за 3 недели. Профессионализм на высоте."</p><span style="color:#6b7280;">— Иван Петров, директор IT-корп.</span></div>
+            <div class="card"><i class="fas fa-quote-left" style="color:#4f46e5;"></i><p style="margin:10px 0; font-style:italic;">"Тур в Сочи с тимбилдингом превзошёл ожидания. Всё идеально."</p><span style="color:#6b7280;">— Елена Смирнова, HR-директор</span></div>
+            <div class="card"><i class="fas fa-quote-left" style="color:#4f46e5;"></i><p style="margin:10px 0; font-style:italic;">"Техническая реализация гала-вечера была безупречной. Спасибо команде!"</p><span style="color:#6b7280;">— Алексей Ковалёв, продюсер</span></div>
+        </div>
+        <div class="text-center"><button class="btn-primary" onclick="navigateTo('calculator')"><i class="fas fa-arrow-right"></i> Перейти к калькулятору</button></div>
+    </section>
+
+    <!-- ======== ОСТАЛЬНЫЕ СТРАНИЦЫ (services, conferences, tours, portfolio, about, contacts, calculator) ======== -->
+    <!-- Они сохранены как в оригинале, для краткости я их не переписываю, но они есть в твоём файле. 
+         В этом полном коде они все присутствуют, я их просто опускаю здесь для экономии места, но в итоговом файле они будут. 
+         Поскольку мы даём полный код, я должен включить их все. Для экономии места я их скопирую из твоего прошлого файла. 
+         Ниже я вставлю все недостающие секции. -->
+    <!-- СТРАНИЦА УСЛУГИ -->
+    <section id="page-services" class="page">
+        <h2 class="section-title">Наши услуги</h2>
+        <p class="section-subtitle">Полный спектр событийного инжиниринга</p>
+        <div class="grid-3">
+            <div class="card"><i class="fas fa-users"></i><h3>Бизнес-конференции</h3><p>Форумы, конгрессы, саммиты с техническим продакшном и трансляциями.</p></div>
+            <div class="card"><i class="fas fa-glass-cheers"></i><h3>Гала-ужины и премии</h3><p>Церемонии награждения, банкеты, светские мероприятия с шоу-программой.</p></div>
+            <div class="card"><i class="fas fa-hiking"></i><h3>Тимбилдинги и выезды</h3><p>Командообразование, квесты, спортивные игры, стратегические сессии.</p></div>
+            <div class="card"><i class="fas fa-plane"></i><h3>MICE-туры</h3><p>Корпоративные поездки, инсентив-туры, сочетание бизнеса и отдыха.</p></div>
+            <div class="card"><i class="fas fa-video"></i><h3>Стриминг и медиа</h3><p>Многокамерные трансляции, запись, пост-продакшн, виртуальные студии.</p></div>
+            <div class="card"><i class="fas fa-paint-brush"></i><h3>Дизайн и брендинг</h3><p>Разработка концепции, полиграфия, мерч, оформление локации.</p></div>
+        </div>
+    </section>
+
+    <!-- КОНФЕРЕНЦИИ -->
+    <section id="page-conferences" class="page">
+        <h2 class="section-title">Организация конференций</h2>
+        <p class="section-subtitle">Технический райдер, оборудование и сценарный план</p>
+        <div class="grid-3">
+            <div class="card"><h3><i class="fas fa-desktop"></i> LED-экраны P1.2</h3><p>Ультра-четкие экраны для презентаций и трансляций.</p></div>
+            <div class="card"><h3><i class="fas fa-headset"></i> Синхронный перевод</h3><p>До 6 языков с профессиональными кабинами.</p></div>
+            <div class="card"><h3><i class="fas fa-broadcast"></i> 4K-стриминг</h3><p>Трансляция на платформы с резервированием.</p></div>
+        </div>
+        <div style="background:#0b1424; border-radius:20px; padding:20px; margin:20px 0; border:1px solid #1f2937;">
+            <h4 style="color:#22d3ee;">Пример сметы конференции на 300 чел.</h4>
+            <ul style="list-style:none; color:#cbd5e1; line-height:2;">
+                <li><i class="fas fa-check-circle" style="color:#10b85c;"></i> Аренда зала (конгресс-центр) — 180 000 ₽</li>
+                <li><i class="fas fa-check-circle" style="color:#10b85c;"></i> Звуковое оборудование (L-Acoustics) — 140 000 ₽</li>
+                <li><i class="fas fa-check-circle" style="color:#10b85c;"></i> LED-экран 6x4м — 220 000 ₽</li>
+                <li><i class="fas fa-check-circle" style="color:#10b85c;"></i> Трансляция + операторы — 160 000 ₽</li>
+                <li><i class="fas fa-check-circle" style="color:#10b85c;"></i> Кофе-брейки и обед — 210 000 ₽</li>
+            </ul>
+            <p style="color:#22d3ee; font-size:1.4rem; font-weight:800;">Итого ~910 000 ₽</p>
+        </div>
+    </section>
+
+    <!-- ТУРЫ -->
+    <section id="page-tours" class="page">
+        <h2 class="section-title">Корпоративные туры и MICE</h2>
+        <p class="section-subtitle">Готовые пакеты и кастомизация под ваш запрос</p>
+        <div class="grid-3">
+            <div class="tour-card"><h3><i class="fas fa-mountain"></i> Алтай — приключения</h3><p>3 дня, сплавы, конные прогулки, проживание в эко-отеле.</p><span class="price">от 45 000 ₽/чел.</span></div>
+            <div class="tour-card"><h3><i class="fas fa-umbrella-beach"></i> Сочи — бизнес-микс</h3><p>2 дня конференции + 2 дня отдыха, гольф, яхтинг.</p><span class="price">от 78 000 ₽/чел.</span></div>
+            <div class="tour-card"><h3><i class="fas fa-city"></i> Санкт-Петербург — культура</h3><p>Экскурсии, гала-ужин в дворце, тимбилдинг на Неве.</p><span class="price">от 62 000 ₽/чел.</span></div>
+        </div>
+        <div style="background:#0b1424; border:1px solid #1f2937; border-radius:20px; padding:20px; margin-top:20px;">
+            <h4 style="color:#fff;">Индивидуальный расчёт тура</h4>
+            <button class="btn-primary" onclick="navigateTo('calculator')"><i class="fas fa-calculator"></i> Перейти в калькулятор</button>
+        </div>
+    </section>
+
+    <!-- ПОРТФОЛИО -->
+    <section id="page-portfolio" class="page">
+        <h2 class="section-title">Наши проекты</h2>
+        <p class="section-subtitle">Более 200 реализованных событий</p>
+        <div class="gallery-grid">
+            <div class="gallery-item"><i class="fas fa-image"></i><span style="display:block; margin-top:8px;">Форум Tech-2025</span></div>
+            <div class="gallery-item"><i class="fas fa-image"></i><span style="display:block; margin-top:8px;">Гала-ужин «Золотая звезда»</span></div>
+            <div class="gallery-item"><i class="fas fa-image"></i><span style="display:block; margin-top:8px;">Тимбилдинг в Карелии</span></div>
+            <div class="gallery-item"><i class="fas fa-image"></i><span style="display:block; margin-top:8px;">Конференция MICE-Expo</span></div>
+            <div class="gallery-item"><i class="fas fa-image"></i><span style="display:block; margin-top:8px;">Корпоратив в Дубае</span></div>
+            <div class="gallery-item"><i class="fas fa-image"></i><span style="display:block; margin-top:8px;">Саммит лидеров</span></div>
+        </div>
+    </section>
+
+    <!-- О НАС -->
+    <section id="page-about" class="page">
+        <h2 class="section-title">О компании</h2>
+        <p class="section-subtitle">Команда профессионалов с 10-летним опытом</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px;">
+            <div class="card text-center"><i class="fas fa-user-tie" style="font-size:2.5rem;"></i><h4>Юлия Садковая</h4><p style="font-size:0.9rem;">Генеральный продюсер</p></div>
+            <div class="card text-center"><i class="fas fa-user-cog" style="font-size:2.5rem;"></i><h4>Гуцелюк Владислав</h4><p style="font-size:0.9rem;">Технический директор</p></div>
+            <div class="card text-center"><i class="fas fa-user-graduate" style="font-size:2.5rem;"></i><h4>Юлия Садковая</h4><p style="font-size:0.9rem;">Руководитель MICE-направления</p></div>
+        </div>
+        <div style="background:#0b1424; border-radius:24px; padding:24px; margin-top:24px; border:1px solid #1f2937;">
+            <p style="color:#cbd5e1;">Мы — инженеры событий. Наша миссия — делать бизнес-мероприятия эффективными, а корпоративный отдых — незабываемым. Работаем по всей России и за рубежом.</p>
+        </div>
+    </section>
+
+    <!-- КОНТАКТЫ -->
+    <section id="page-contacts" class="page">
+        <h2 class="section-title">Свяжитесь с нами</h2>
+        <p class="section-subtitle">Ответим в течение 15 минут</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px; background:#0b1424; border-radius:28px; padding:30px; border:1px solid #1f2937;">
+            <div>
+                <p><i class="fas fa-phone" style="color:#22d3ee;"></i> +7 (495) 123-45-67</p>
+                <p><i class="fas fa-envelope" style="color:#22d3ee;"></i> info@event.engine</p>
+                <p><i class="fas fa-map-pin" style="color:#22d3ee;"></i> Москва, ул. Тверская, 22</p>
+                <div style="display:flex; gap:16px; margin-top:20px;">
+                    <a href="#"><i class="fab fa-telegram fa-2x" style="color:#22d3ee;"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp fa-2x" style="color:#22d3ee;"></i></a>
+                    <a href="#"><i class="fab fa-youtube fa-2x" style="color:#22d3ee;"></i></a>
+                </div>
+                <div id="map-container"></div>
+            </div>
+            <div>
+                <form id="contactForm" onsubmit="submitContact(event)">
+                    <input type="text" placeholder="Ваше имя" required style="width:100%; margin-bottom:12px; padding:12px; border-radius:12px; background:#030712; border:1px solid #374151; color:#fff;">
+                    <input type="email" placeholder="Email" required style="width:100%; margin-bottom:12px; padding:12px; border-radius:12px; background:#030712; border:1px solid #374151; color:#fff;">
+                    <textarea placeholder="Сообщение" rows="3" style="width:100%; margin-bottom:12px; padding:12px; border-radius:12px; background:#030712; border:1px solid #374151; color:#fff;"></textarea>
+                    <button type="submit" class="btn-primary" style="width:100%;">Отправить</button>
+                </form>
+                <div class="drop-zone" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Перетащите файл с ТЗ или нажмите для выбора</p>
+                    <input type="file" id="fileInput" style="display:none;" accept=".doc,.docx,.pdf,.txt">
+                </div>
+                <div id="uploadStatus" style="color:#10b85c; margin-top:8px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КАЛЬКУЛЯТОР -->
+    <section id="page-calculator" class="page">
+        <h2 class="section-title">Умный калькулятор событий</h2>
+        <p class="section-subtitle">Рассчитайте стоимость вашего проекта за 2 минуты</p>
+        <div class="calc-wrapper">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Тип мероприятия</label>
+                    <select id="eventType">
+                        <option value="conference">Бизнес-конференция</option>
+                        <option value="gala">Гала-ужин / Премия</option>
+                        <option value="team">Тимбилдинг</option>
+                        <option value="tour">MICE-тур</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Уровень</label>
+                    <select id="tariff">
+                        <option value="basic">Базовый</option>
+                        <option value="business">Бизнес</option>
+                        <option value="premium">Премиум</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Количество участников</label>
+                    <input type="number" id="guestCount" value="100" min="10" max="5000">
+                </div>
+                <div class="form-group">
+                    <label>Длительность (дней)</label>
+                    <select id="duration">
+                        <option value="1">1 день</option>
+                        <option value="2">2 дня</option>
+                        <option value="3">3 дня</option>
+                        <option value="5">5 дней</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Дополнительные услуги</label>
+                <div class="options-grid" id="optionsContainer"></div>
+            </div>
+            <div class="result-panel">
+                <div class="result-title" style="color:#6b7280; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Ориентировочная стоимость</div>
+                <div class="result-price" id="totalPrice">650 000 ₽</div>
+                <div id="priceDetail" style="color:#9ca3af; font-size:0.85rem; margin-top:8px;">Базовая комплектация</div>
+                <div style="margin-top:16px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                    <button class="btn-primary" onclick="calculatePrice()"><i class="fas fa-sync-alt"></i> Пересчитать</button>
+                    <button class="btn-outline" onclick="generatePDF()"><i class="fas fa-file-pdf"></i> Скачать PDF-смету</button>
+                    <button class="btn-outline" onclick="openLeadModal()"><i class="fas fa-envelope"></i> Отправить запрос</button>
+                </div>
+            </div>
+        </div>
+        <div class="roi-calc">
+            <h3 style="color:#fff; text-align:center;"><i class="fas fa-chart-pie" style="color:#22d3ee;"></i> Оценка ROI мероприятия</h3>
+            <p style="text-align:center; color:#9ca3af;">Рассчитайте потенциальную окупаемость вашей конференции</p>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Бюджет мероприятия (₽)</label>
+                    <input type="number" id="budgetInput" value="1000000">
+                </div>
+                <div class="form-group">
+                    <label>Количество участников</label>
+                    <input type="number" id="roiGuests" value="100">
+                </div>
+                <div class="form-group">
+                    <label>Средняя цена билета (₽)</label>
+                    <input type="number" id="ticketPrice" value="15000">
+                </div>
+            </div>
+            <button class="btn-primary" onclick="calculateROI()" style="width:100%;"><i class="fas fa-calculator"></i> Рассчитать ROI</button>
+            <div id="roiResult" style="margin-top:20px; text-align:center;">
+                <span class="roi-result">0%</span>
+                <p style="color:#9ca3af;">Потенциальная окупаемость</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== НОВАЯ СТРАНИЦА: КАТАЛОГ (вкладки) ======== -->
+    <section id="page-shop" class="page">
+        <h2 class="section-title">Каталог</h2>
+        <p class="section-subtitle">Услуги и товары от проверенных поставщиков</p>
+
+        <!-- Вкладки -->
+        <div style="display:flex; gap:12px; margin-bottom:30px; border-bottom:1px solid #1f2937; padding-bottom:12px;">
+            <button id="tabServices" class="btn-primary btn-sm" onclick="switchCatalogTab('services')" style="border-radius:20px;">Услуги</button>
+            <button id="tabMerch" class="btn-outline btn-sm" onclick="switchCatalogTab('merch')" style="border-radius:20px;">Мерч</button>
+        </div>
+
+        <!-- Контент вкладки "Услуги" -->
+        <div id="catalogServices">
+            <div style="text-align:right; margin-bottom:20px;">
+                <button id="addServiceBtnCatalog" class="btn-primary btn-sm" onclick="document.getElementById('addServiceModal').classList.add('open')" style="display:none;">
+                    <i class="fas fa-plus"></i> Добавить услугу
+                </button>
+            </div>
+            <!-- Поиск по услугам -->
+            <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
+                <input type="text" id="searchService" placeholder="Поиск услуг..." style="flex:1; padding:10px; background:#030712; border:1px solid #374151; border-radius:12px; color:#fff;">
+                <button class="btn-primary" onclick="filterServices()">Найти</button>
+                <button class="btn-outline" onclick="resetSearch()">Сбросить</button>
+            </div>
+            <div id="venuesGridCatalog" class="grid-3" style="margin-bottom: 3rem;"></div>
+        </div>
+
+        <!-- Контент вкладки "Мерч" -->
+        <div id="catalogMerch" style="display:none;">
+            <div style="text-align:right; margin-bottom:20px;">
+                <button id="addProductBtn" class="btn-primary btn-sm" onclick="document.getElementById('addProductModal').classList.add('open')" style="display:none;">
+                    <i class="fas fa-plus"></i> Добавить товар
+                </button>
+            </div>
+            <!-- Фильтры для мерча (существующие) -->
+            <div class="shop-controls">
+                <div class="filter-group">
+                    <select id="filterCategory" onchange="applyFilters()">
+                        <option value="">Все категории</option>
+                        <option value="Съедобные подарки">Съедобные подарки</option>
+                        <option value="Кухня и посуда">Кухня и посуда</option>
+                        <option value="Одежда">Одежда</option>
+                        <option value="Электроника">Электроника</option>
+                        <option value="Для дома">Для дома</option>
+                        <option value="Для спорта">Для спорта</option>
+                        <option value="Офисные аксессуары">Офисные аксессуары</option>
+                    </select>
+                    <select id="filterBrand" onchange="applyFilters()">
+                        <option value="">Все бренды</option>
+                        <option value="Roly">Roly</option>
+                        <option value="Bruno Visconti">Bruno Visconti</option>
+                        <option value="BUGATTI">BUGATTI</option>
+                        <option value="Eat&amp;Bite">Eat&amp;Bite</option>
+                        <option value="US Basic">US Basic</option>
+                    </select>
+                    <div class="price-range">
+                        <span>Цена</span>
+                        <input type="number" id="priceMin" placeholder="от" min="0" onchange="applyFilters()">
+                        <input type="number" id="priceMax" placeholder="до" min="0" onchange="applyFilters()">
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Поиск..." oninput="applyFilters()" style="flex:1; min-width:150px;">
+                </div>
+                <div class="filter-actions">
+                    <button class="btn-outline btn-sm" onclick="resetFilters()">Сбросить</button>
+                </div>
+            </div>
+            <div id="productGrid" class="product-grid"></div>
+            <div id="pagination" class="pagination"></div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============ ВСЕ МОДАЛЬНЫЕ ОКНА (на одном уровне) ============ -->
+
+<!-- Модалка корзины -->
+<div class="modal-overlay" id="cartModal">
+    <div class="modal-box cart-modal">
+        <h3><i class="fas fa-shopping-cart" style="color:#22d3ee;"></i> Корзина</h3>
+        <div id="cartItems"></div>
+        <div class="cart-total" id="cartTotal">Итого: 0 ₽</div>
+        <div class="btn-row">
+            <button class="btn-outline btn-sm" onclick="closeCartModal()">Закрыть</button>
+            <button class="btn-primary btn-sm" onclick="checkout()">Оформить заказ</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модалка быстрого просмотра (для мерча) -->
+<div class="modal-overlay quick-view-modal" id="quickViewModal">
+    <div class="modal-box">
+        <div id="quickViewContent" class="product-detail"></div>
+        <div class="btn-row" style="margin-top:16px;">
+            <button class="btn-outline btn-sm" onclick="closeQuickView()">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модалка заявки -->
+<div class="modal-overlay" id="leadModal">
+    <div class="modal-box">
+        <h3><i class="fas fa-paper-plane" style="color:#22d3ee;"></i> Оставить заявку</h3>
+        <p>Менеджер свяжется с вами в течение 15 минут</p>
+        <form id="leadForm" onsubmit="submitLead(event)">
+            <input type="text" placeholder="Ваше имя" id="leadName" required>
+            <input type="email" placeholder="Email" id="leadEmail" required>
+            <input type="tel" placeholder="Телефон" id="leadPhone">
+            <textarea placeholder="Комментарий к проекту" rows="2" id="leadComment"></textarea>
+            <div class="btn-row">
+                <button type="button" class="btn-outline" onclick="closeLeadModal()">Отмена</button>
+                <button type="submit" class="btn-primary">Отправить</button>
+            </div>
+        </form>
+        <div id="leadSuccess" style="display:none; text-align:center; padding:20px;">
+            <i class="fas fa-check-circle" style="color:#10b85c; font-size:2.5rem;"></i>
+            <p style="color:#fff; margin-top:10px;">Заявка принята! Ждите звонка.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Чат-виджет -->
+<div class="chat-widget">
+    <div class="chat-bubble" id="chatBubble">
+        <i class="fas fa-comment-dots" style="color:#22d3ee;"></i> Здравствуйте! Чем можем помочь?
+    </div>
+    <button class="chat-btn" id="chatToggle" onclick="toggleChat()">
+        <i class="fas fa-comment"></i>
+    </button>
+</div>
+
+<!-- Уведомление -->
+<div id="notification" class="notification"></div>
+
+<!-- Модалка регистрации -->
+<div class="modal-overlay" id="registerModal">
+    <div class="modal-box">
+        <h3><i class="fas fa-user-plus" style="color:#22d3ee;"></i> Регистрация</h3>
+        <form id="registerForm">
+            <input type="text" id="regCompany" placeholder="Название компании" required>
+            <input type="email" id="regEmail" placeholder="Email" required>
+            <input type="password" id="regPassword" placeholder="Пароль (не менее 6 символов)" required minlength="6">
+            <select id="regRole" required>
+                <option value="">Выберите роль</option>
+                <option value="Заказчик">Заказчик</option>
+                <option value="Подрядчик">Подрядчик</option>
+            </select>
+            <div class="btn-row">
+                <button type="button" class="btn-outline" onclick="closeModal('registerModal')">Отмена</button>
+                <button type="submit" class="btn-primary">Зарегистрироваться</button>
+            </div>
+        </form>
+        <div id="registerSuccess" style="display:none; text-align:center; padding:20px;">
+            <i class="fas fa-check-circle" style="color:#10b85c; font-size:2.5rem;"></i>
+            <p style="color:#fff; margin-top:10px;">Регистрация успешна! Проверьте почту для подтверждения (если требуется).</p>
+        </div>
+    </div>
+</div>
+
+<!-- Модалка входа -->
+<div class="modal-overlay" id="loginModal">
+    <div class="modal-box">
+        <h3><i class="fas fa-sign-in-alt" style="color:#22d3ee;"></i> Вход</h3>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Пароль" required>
+            <div class="btn-row">
+                <button type="button" class="btn-outline" onclick="closeModal('loginModal')">Отмена</button>
+                <button type="submit" class="btn-primary">Войти</button>
+            </div>
+        </form>
+        <div id="loginError" style="color:#ef4444; margin-top:10px; display:none;"></div>
+    </div>
+</div>
+
+<!-- Модалка добавления услуги -->
+<div class="modal-overlay" id="addServiceModal">
+    <div class="modal-box">
+        <h3><i class="fas fa-plus-circle" style="color:#22d3ee;"></i> Добавить площадку / услугу</h3>
+        <form id="addServiceForm">
+            <input type="text" id="serviceName" placeholder="Название" required>
+            <textarea id="serviceDesc" placeholder="Описание" rows="2"></textarea>
+            <input type="number" id="servicePrice" placeholder="Цена (₽)" required step="0.01">
+            <input type="text" id="servicePhoto" placeholder="Ссылка на фото (URL)">
+            <div class="btn-row">
+                <button type="button" class="btn-outline" onclick="closeModal('addServiceModal')">Отмена</button>
+                <button type="submit" class="btn-primary">Добавить</button>
+            </div>
+        </form>
+        <div id="addServiceSuccess" style="display:none; text-align:center; padding:20px;">
+            <i class="fas fa-check-circle" style="color:#10b85c; font-size:2.5rem;"></i>
+            <p style="color:#fff; margin-top:10px;">Услуга добавлена!</p>
+        </div>
+    </div>
+</div>
+
+<!-- Модалка деталей услуги (ОТДЕЛЬНО, не вложена) -->
+<div class="modal-overlay" id="serviceDetailModal">
+    <div class="modal-box" style="max-width:700px;">
+        <div id="serviceDetailContent"></div>
+        <div class="btn-row">
+            <button class="btn-outline" onclick="closeModal('serviceDetailModal')">Закрыть</button>
+            <button class="btn-primary" onclick="contactVendor()">Связаться</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модалка добавления товара -->
+<div class="modal-overlay" id="addProductModal">
+    <div class="modal-box">
+        <h3><i class="fas fa-plus-circle" style="color:#22d3ee;"></i> Добавить товар</h3>
+        <form id="addProductForm">
+            <input type="text" id="productName" placeholder="Название" required>
+            <textarea id="productDesc" placeholder="Описание" rows="2"></textarea>
+            <input type="number" id="productPrice" placeholder="Цена (₽)" required step="0.01">
+            <input type="text" id="productCategory" placeholder="Категория (например, Одежда)">
+            <input type="text" id="productBrand" placeholder="Бренд">
+            <input type="text" id="productImage" placeholder="Ссылка на фото (URL)">
+            <div class="btn-row">
+                <button type="button" class="btn-outline" onclick="closeModal('addProductModal')">Отмена</button>
+                <button type="submit" class="btn-primary">Добавить</button>
+            </div>
+        </form>
+        <div id="addProductSuccess" style="display:none; text-align:center; padding:20px;">
+            <i class="fas fa-check-circle" style="color:#10b85c; font-size:2.5rem;"></i>
+            <p style="color:#fff; margin-top:10px;">Товар добавлен!</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div><h4>ARTLIFE.ENGINE</h4><p style="color:#6b7280;">Инжиниринг событий с 2015 года.</p></div>
+            <div><h4>Услуги</h4><a href="#" onclick="navigateTo('conferences')">Конференции</a><a href="#" onclick="navigateTo('tours')">Туры</a><a href="#" onclick="navigateTo('services')">Все услуги</a><a href="#" onclick="navigateTo('shop')">Каталог</a></div>
+            <div><h4>О нас</h4><a href="#" onclick="navigateTo('about')">Команда</a><a href="#" onclick="navigateTo('portfolio')">Портфолио</a></div>
+            <div><h4>Контакты</h4><a href="#" onclick="navigateTo('contacts')">Связаться</a><a href="#" onclick="openLeadModal()">Заказать звонок</a></div>
+        </div>
+        <div class="copyright">© 2026 ARTLIFE.ENGINE. Все права защищены.</div>
+    </div>
+</footer>
+
+<!-- ============ СКРИПТЫ ============ -->
+<script>
+    // ==================== СУЩЕСТВУЮЩИЙ JS (навигация, модалки, калькулятор и т.д.) ====================
+    // Навигация
+    function navigateTo(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('page-' + pageId);
+        if (target) target.classList.add('active');
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`.nav-links a[onclick*="navigateTo('${pageId}')"]`);
+        if (link) link.classList.add('active');
+        document.getElementById('mainNav').classList.remove('open');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Если открыли каталог – показать услуги по умолчанию
+        if (pageId === 'shop') {
+            switchCatalogTab('services');
+        }
+    }
+
+    function toggleMenu() {
+        document.getElementById('mainNav').classList.toggle('open');
+    }
+
+    // Модалка заявки
+    function openLeadModal() {
+        document.getElementById('leadModal').classList.add('open');
+        document.getElementById('leadSuccess').style.display = 'none';
+        document.getElementById('leadForm').style.display = 'block';
+    }
+    function closeLeadModal() {
+        document.getElementById('leadModal').classList.remove('open');
+    }
+    function submitLead(e) {
+        e.preventDefault();
+        const name = document.getElementById('leadName').value.trim();
+        const email = document.getElementById('leadEmail').value.trim();
+        if (!name || !email) {
+            alert('Пожалуйста, заполните имя и email.');
+            return;
+        }
+        document.getElementById('leadForm').style.display = 'none';
+        document.getElementById('leadSuccess').style.display = 'block';
+        setTimeout(closeLeadModal, 3000);
+    }
+
+    function submitContact(e) {
+        e.preventDefault();
+        alert('Спасибо! Мы свяжемся с вами в ближайшее время.');
+        e.target.reset();
+    }
+
+    // Калькулятор (существующий)
+    const extraOptions = {
+        translation: { name: 'Синхронный перевод', price: 80000 },
+        celebHost: { name: 'Звёздный ведущий', price: 250000 },
+        arZone: { name: 'AR-фотозона', price: 120000 },
+        security: { name: 'VIP-охрана', price: 45000 },
+        catering: { name: 'Премиум-кейтеринг', price: 90000 },
+        stream4k: { name: '4K-трансляция', price: 180000 },
+        ledWall: { name: 'LED-стена 10м²', price: 150000 },
+        soundLine: { name: 'Линейный массив', price: 110000 },
+        laserShow: { name: 'Лазерное шоу', price: 65000 },
+        transport: { name: 'Трансфер участников', price: 70000 }
+    };
+
+    function renderOptions() {
+        const container = document.getElementById('optionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let key in extraOptions) {
+            const opt = extraOptions[key];
+            const div = document.createElement('label');
+            div.className = 'option-item';
+            div.innerHTML = `
+                <input type="checkbox" id="opt_${key}" value="${key}" onchange="calculatePrice()">
+                <span>${opt.name} <span style="color:#22d3ee; font-weight:600;">+${opt.price.toLocaleString('ru-RU')} ₽</span></span>
+            `;
+            container.appendChild(div);
+        }
+    }
+
+    function calculatePrice() {
+        const eventType = document.getElementById('eventType').value;
+        const tariff = document.getElementById('tariff').value;
+        let guests = parseInt(document.getElementById('guestCount').value) || 100;
+        if (guests < 10) guests = 10;
+        if (guests > 5000) guests = 5000;
+        const days = parseInt(document.getElementById('duration').value) || 1;
+
+        const baseRates = {
+            conference: 400000,
+            gala: 650000,
+            team: 500000,
+            tour: 550000
+        };
+        const tariffMulti = { basic: 1.0, business: 1.6, premium: 2.8 };
+
+        let base = baseRates[eventType] || 400000;
+        let perGuest = base / 100;
+        let cost = perGuest * guests * tariffMulti[tariff] * (1 + (days - 1) * 0.4);
+
+        let extrasTotal = 0;
+        let selected = [];
+        for (let key in extraOptions) {
+            const cb = document.getElementById('opt_' + key);
+            if (cb && cb.checked) {
+                extrasTotal += extraOptions[key].price;
+                selected.push(extraOptions[key].name);
+            }
+        }
+        cost += extrasTotal;
+
+        let discount = 0;
+        if (guests >= 300) discount = 5;
+        if (guests >= 500) discount = 10;
+        if (guests >= 1000) discount = 15;
+        let discountAmount = cost * (discount / 100);
+        cost -= discountAmount;
+
+        let nds = cost * 0.20;
+        let final = cost + nds;
+        if (final < 150000) final = 150000;
+
+        document.getElementById('totalPrice').textContent = Math.round(final).toLocaleString('ru-RU') + ' ₽';
+        let detail = `Базовый тариф: ${tariff.toUpperCase()}, ${guests} чел., ${days} дн.`;
+        if (selected.length > 0) detail += `, опции: ${selected.join(', ')}`;
+        if (discount > 0) detail += `, скидка ${discount}%`;
+        document.getElementById('priceDetail').textContent = detail;
+    }
+
+    function generatePDF() {
+        const price = document.getElementById('totalPrice').textContent;
+        const type = document.getElementById('eventType').selectedOptions[0].text;
+        const tariff = document.getElementById('tariff').selectedOptions[0].text;
+        const guests = document.getElementById('guestCount').value;
+        const days = document.getElementById('duration').selectedOptions[0].text;
+        let opts = [];
+        for (let key in extraOptions) {
+            const cb = document.getElementById('opt_' + key);
+            if (cb && cb.checked) opts.push(extraOptions[key].name);
+        }
+        let content = `
+==============================================
+         КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ
+             ARTLIFE.ENGINE
+==============================================
+Дата: ${new Date().toLocaleDateString('ru-RU')}
+Тип события: ${type}
+Уровень: ${tariff}
+Участников: ${guests}
+Длительность: ${days}
+Доп. услуги: ${opts.length ? opts.join(', ') : 'не выбраны'}
+
+ИТОГО: ${price} (включая НДС 20%)
+==============================================
+Документ действителен 30 дней.
+        `;
+        const blob = new Blob([content], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Смета_ARTLIFE_ENGINE_${Date.now()}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+    }
+
+    // Таймер, статистика, чат, drag&drop, ROI, карта (существующие)
+    function startCountdown(targetDate) {
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        function update() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance < 0) {
+                daysEl.textContent = '00';
+                hoursEl.textContent = '00';
+                minutesEl.textContent = '00';
+                secondsEl.textContent = '00';
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+        }
+        update();
+        setInterval(update, 1000);
+    }
+
+    function animateStats() {
+        const statNumbers = document.querySelectorAll('.stat-number');
+        if (!statNumbers.length) return;
+        let animated = false;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated) {
+                    animated = true;
+                    statNumbers.forEach(el => {
+                        const target = parseInt(el.getAttribute('data-target'));
+                        let current = 0;
+                        const increment = Math.ceil(target / 40);
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                el.textContent = target + (el.parentElement.querySelector('.stat-label')?.textContent.includes('%') ? '%' : '');
+                                clearInterval(timer);
+                            } else {
+                                el.textContent = current;
+                            }
+                        }, 30);
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(document.getElementById('statNumbers'));
+    }
+
+    function toggleChat() {
+        const bubble = document.getElementById('chatBubble');
+        bubble.classList.toggle('show');
+        if (bubble.classList.contains('show')) {
+            setTimeout(() => {
+                bubble.innerHTML = `<i class="fas fa-comment-dots" style="color:#22d3ee;"></i> Напишите нам в Telegram или WhatsApp, мы онлайн!`;
+            }, 2000);
+        }
+    }
+
+    function initFileUpload() {
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const status = document.getElementById('uploadStatus');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                fileInput.files = files;
+                handleFile(files[0]);
+            }
+        });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                handleFile(fileInput.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            const validTypes = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'text/plain'];
+            if (!validTypes.includes(file.type)) {
+                status.textContent = '❌ Неподдерживаемый формат. Загрузите .doc, .docx, .pdf или .txt';
+                status.style.color = '#ef4444';
+                return;
+            }
+            status.textContent = `✅ Файл "${file.name}" успешно загружен (${(file.size/1024).toFixed(1)} КБ)`;
+            status.style.color = '#10b85c';
+            setTimeout(() => {
+                status.textContent = '📤 Файл передан менеджеру. Ожидайте звонка!';
+            }, 1500);
+        }
+    }
+
+    function calculateROI() {
+        const budget = parseFloat(document.getElementById('budgetInput').value) || 0;
+        const guests = parseInt(document.getElementById('roiGuests').value) || 0;
+        const ticketPrice = parseFloat(document.getElementById('ticketPrice').value) || 0;
+        if (budget <= 0 || guests <= 0 || ticketPrice <= 0) {
+            document.getElementById('roiResult').innerHTML = `<span class="roi-result">—</span><p style="color:#9ca3af;">Заполните все поля корректно</p>`;
+            return;
+        }
+        const revenue = guests * ticketPrice;
+        const profit = revenue - budget;
+        const roi = budget > 0 ? (profit / budget) * 100 : 0;
+        const roiColor = roi >= 30 ? '#10b85c' : (roi >= 0 ? '#f59e0b' : '#ef4444');
+        document.getElementById('roiResult').innerHTML = `
+            <span class="roi-result" style="color:${roiColor};">${roi.toFixed(1)}%</span>
+            <p style="color:#9ca3af;">Потенциальная окупаемость</p>
+            <p style="font-size:0.9rem; color:#6b7280;">Доход от билетов: ${revenue.toLocaleString('ru-RU')} ₽ | Прибыль: ${profit.toLocaleString('ru-RU')} ₽</p>
+        `;
+    }
+
+    function initMap() {
+        if (typeof ymaps === 'undefined') return;
+        ymaps.ready(function() {
+            var map = new ymaps.Map('map-container', {
+                center: [55.7558, 37.6173],
+                zoom: 14,
+                controls: ['zoomControl', 'geolocationControl']
+            });
+            var placemark = new ymaps.Placemark([55.7558, 37.6173], {
+                balloonContent: 'ARTLIFE.ENGINE<br>Москва, ул. Тверская, 22'
+            }, {
+                preset: 'islands#circleDotIcon',
+                iconColor: '#06b6d4'
+            });
+            map.geoObjects.add(placemark);
+        });
+    }
+
+
+    // ==================== НОВЫЙ JS ДЛЯ МЕРЧА (магазин) ====================
+    // Данные товаров (20 позиций) – статичные, но позже можно заменить на запрос из БД
+    const products = [
+        { id: 1, name: 'Подарочный набор c купажами чая и сладостями "Весенние птицы"', price: 1756, category: 'Съедобные подарки', brand: 'Eat&Bite', image: 'https://www.limoges.art/upload/iblock/0b8/qdlzdtuyqa3md593qn3lvpven4lmybfa.jpg', desc: 'Набор изысканных чаёв и сладостей в подарочной упаковке.' },
+        { id: 2, name: 'Термокружка Таник из нержавеющей стали с двойными стенками, красный', price: 1348.23, category: 'Кухня и посуда', brand: 'Roly', image: 'https://www.limoges.art/upload/iblock/503/t0a9a8yit1vd2os28rkggd95cc4ips8u.jpg', desc: 'Стильная термокружка, сохраняет тепло до 6 часов.' },
+        { id: 3, name: 'Термокружка Кенчер с двойными стенками из нержавеющей стали 304, белый', price: 1071.92, category: 'Кухня и посуда', brand: 'Roly', image: 'https://www.limoges.art/upload/iblock/eeb/qjpdrh5nuwk5vu9hj5kj3eito3y4fwyn.jpg', desc: 'Лёгкая и прочная кружка для офиса и поездок.' },
+        { id: 4, name: 'Футболка оверсайз Chow унисекс, винтажный белый', price: 1940, category: 'Одежда', brand: 'US Basic', image: 'https://www.limoges.art/upload/iblock/7a5/1xnaz4l330figic2lv15w8dmn7doc0a1.jpg', desc: 'Хлопковая футболка свободного кроя с логотипом.' },
+        { id: 5, name: 'Футболка оверсайз Chow унисекс, песочный', price: 1779, category: 'Одежда', brand: 'US Basic', image: 'https://www.limoges.art/upload/iblock/d2b/zzydluiv6ywbvdea77cxbwsa4myse86q.jpg', desc: 'Модный песочный оттенок, унисекс.' },
+        { id: 6, name: 'Футболка Kutta унисекс, красный', price: 789, category: 'Одежда', brand: 'Bruno Visconti', image: 'https://www.limoges.art/upload/iblock/efc/3qqk3i37kqjtc91sb3ffg74gjdzcrfaf.jpg', desc: 'Яркая футболка из 100% хлопка.' },
+        { id: 7, name: 'Футболка Kutta унисекс, серый меланж', price: 789, category: 'Одежда', brand: 'Bruno Visconti', image: 'https://www.limoges.art/upload/iblock/662/uencj1krww2likd3yth418sdith8qbx8.jpg', desc: 'Классический серый меланж для повседневной носки.' },
+        { id: 8, name: 'Часы наручные мужские Diesel', price: 29990, category: 'Электроника', brand: 'BUGATTI', image: 'https://www.limoges.art/upload/iblock/8f3/uud5kfn8syb83fmrgtcda5rk3wzxqa04.jpg', desc: 'Хронограф из нержавеющей стали, водонепроницаемые.' },
+        { id: 9, name: 'Подарочный набор "Кофейный"', price: 1200, category: 'Съедобные подарки', brand: 'Eat&Bite', image: 'https://www.limoges.art/upload/iblock/45b/e5e6mkna3p0sew9wtkyzid9vlg9by4vz.png', desc: 'Набор из 3 сортов кофе и шоколада.' },
+        { id: 10, name: 'Бутылка для воды стальная 500 мл', price: 850, category: 'Кухня и посуда', brand: 'Roly', image: 'https://www.limoges.art/upload/iblock/118/w07np7n5jjzexuoy2kwmu5l5ru8l2fu2.png', desc: 'Экологичная бутылка с двойными стенками.' },
+        { id: 11, name: 'Сумка-холодильник для пикника', price: 1450, category: 'Для дома', brand: 'US Basic', image: 'https://www.limoges.art/upload/iblock/22e/d9s1yxu537qjjduwhlfipipvdhl5pold.png', desc: 'Вместительная термосумка для поездок на природу.' },
+        { id: 12, name: 'Плед с рукавами "Уют"', price: 2100, category: 'Для дома', brand: 'Roly', image: 'https://www.limoges.art/upload/iblock/55a/qqex2bu60g6liew4h4x6ampprvwvgdet.png', desc: 'Мягкий плед-одеяло с карманами для рук.' },
+        { id: 13, name: 'Набор для барбекю (шампуры, лопатка, щипцы)', price: 3200, category: 'Кухня и посуда', brand: 'Bruno Visconti', image: 'https://www.limoges.art/upload/iblock/fb8/retpcbhu6sjdm3fccx0i1vq5c5o2495x.png', desc: 'Профессиональный набор для гриля в кейсе.' },
+        { id: 14, name: 'Фонарь тактический Led', price: 990, category: 'Электроника', brand: 'BUGATTI', image: 'https://www.limoges.art/upload/iblock/2a0/4r53shq29alsq22u95itpv4fgq3qwqzl.png', desc: 'Мощный водонепроницаемый фонарь с зумом.' },
+        { id: 15, name: 'Рюкзак городской 20 л', price: 2800, category: 'Для спорта', brand: 'US Basic', image: 'https://www.limoges.art/upload/iblock/672/908l44l7sebsvyqshkl6di7qieniup2b.jpg', desc: 'Компактный рюкзак с отделением для ноутбука.' },
+        { id: 16, name: 'Футболка оверсайз Chow унисекс, черный', price: 1940, category: 'Одежда', brand: 'US Basic', image: 'https://www.limoges.art/upload/iblock/20c/yi9q6lye3044swnw2y4iv5n39h7rcqix.jpg', desc: 'Чёрная футболка с логотипом на груди.' },
+        { id: 17, name: 'Футболка оверсайз Chow унисекс, белый', price: 1779, category: 'Одежда', brand: 'US Basic', image: 'https://www.limoges.art/upload/iblock/887/8fx327xot6sx2p3mr77cc975nfplsa6v.jpg', desc: 'Белая футболка свободного кроя.' },
+        { id: 18, name: 'Термокружка "Классик" 450 мл', price: 980, category: 'Кухня и посуда', brand: 'Roly', image: 'https://www.limoges.art/upload/iblock/c12/bwfcbcgv2arzz0qhcehlut6s5812t5i6.jpg', desc: 'Универсальная термокружка с крышкой.' },
+        { id: 19, name: 'Блокнот кожаный А5', price: 750, category: 'Офисные аксессуары', brand: 'Bruno Visconti', image: 'https://www.limoges.art/upload/iblock/9b1/zqw1s7hx31l01rvxue4t9c5034v1ky90.jpg', desc: 'Экокожаный блокнот на резинке.' },
+        { id: 20, name: 'Зонт-трость автоматический', price: 1800, category: 'Для дома', brand: 'Roly', image: 'https://www.limoges.art/upload/iblock/5b9/d8pxk0k8j3xw878xvrrwcspxb5i3k88n.jpg', desc: 'Надёжный зонт с ветрозащитой.' }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('shopCart')) || [];
+    let favorites = JSON.parse(localStorage.getItem('shopFavorites')) || [];
+    let compare = JSON.parse(localStorage.getItem('shopCompare')) || [];
+    let currentPage = 1;
+    const perPage = 9;
+    let filteredProducts = [...products];
+
+    function renderShop() {
+        const grid = document.getElementById('productGrid');
+        const pagination = document.getElementById('pagination');
+        if (!grid) return;
+
+        const cat = document.getElementById('filterCategory').value;
+        const brand = document.getElementById('filterBrand').value;
+        const min = parseFloat(document.getElementById('priceMin').value) || 0;
+        const max = parseFloat(document.getElementById('priceMax').value) || Infinity;
+        const search = document.getElementById('searchInput').value.toLowerCase();
+
+        filteredProducts = products.filter(p => {
+            const matchCat = !cat || p.category === cat;
+            const matchBrand = !brand || p.brand === brand;
+            const matchPrice = p.price >= min && p.price <= max;
+            const matchSearch = p.name.toLowerCase().includes(search) || p.category.toLowerCase().includes(search);
+            return matchCat && matchBrand && matchPrice && matchSearch;
+        });
+
+        const totalPages = Math.ceil(filteredProducts.length / perPage);
+        if (currentPage > totalPages) currentPage = totalPages || 1;
+        const start = (currentPage - 1) * perPage;
+        const pageItems = filteredProducts.slice(start, start + perPage);
+
+        grid.innerHTML = pageItems.map(p => {
+            const inCart = cart.some(item => item.id === p.id);
+            const isFavorite = favorites.includes(p.id);
+            const isCompare = compare.includes(p.id);
+            return `
+                <div class="product-card" data-id="${p.id}">
+                    <div class="image">
+                        <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/240x180?text=Фото'">
+                        <button class="quick-view" onclick="quickView(${p.id})"><i class="fas fa-eye"></i> Быстрый просмотр</button>
+                    </div>
+                    <div class="info">
+                        <div class="category">${p.category} • ${p.brand}</div>
+                        <div class="name">${p.name}</div>
+                        <div class="price">${p.price.toFixed(2)} ₽</div>
+                        <div class="actions">
+                            <button class="add-to-cart ${inCart ? 'in-cart' : ''}" onclick="toggleCart(${p.id})">
+                                ${inCart ? 'В корзине' : 'В корзину'}
+                            </button>
+                            <button class="icon-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${p.id})" title="Избранное">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="icon-btn ${isCompare ? 'compare-active' : ''}" onclick="toggleCompare(${p.id})" title="Сравнить">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        pagination.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            if (i === currentPage) btn.classList.add('active');
+            btn.onclick = () => { currentPage = i; renderShop(); };
+            pagination.appendChild(btn);
+        }
+        pagination.style.display = totalPages <= 1 ? 'none' : 'flex';
+        updateBadges();
+    }
+
+    // Функции корзины, избранного, сравнения (без изменений)
+    function toggleCart(id) {
+        const idx = cart.findIndex(item => item.id === id);
+        if (idx > -1) cart.splice(idx, 1);
+        else {
+            const product = products.find(p => p.id === id);
+            if (product) cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
+        }
+        localStorage.setItem('shopCart', JSON.stringify(cart));
+        renderShop();
+        showNotification(idx > -1 ? 'Товар удалён из корзины' : 'Товар добавлен в корзину');
+    }
+
+    function openCartModal() {
+        document.getElementById('cartModal').classList.add('open');
+        renderCart();
+    }
+    function closeCartModal() {
+        document.getElementById('cartModal').classList.remove('open');
+    }
+
+    function renderCart() {
+        const container = document.getElementById('cartItems');
+        if (cart.length === 0) {
+            container.innerHTML = '<p style="color:#9ca3af;">Корзина пуста</p>';
+            document.getElementById('cartTotal').textContent = 'Итого: 0 ₽';
+            return;
+        }
+        let total = 0;
+        container.innerHTML = cart.map((item, index) => {
+            const sum = item.price * item.qty;
+            total += sum;
+            return `
+                <div class="cart-item">
+                    <div class="item-info">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-price">${item.price.toFixed(2)} ₽</span>
+                    </div>
+                    <div class="item-qty">
+                        <button onclick="changeQty(${index}, -1)">−</button>
+                        <span>${item.qty}</span>
+                        <button onclick="changeQty(${index}, 1)">+</button>
+                        <button onclick="removeCartItem(${index})" style="background:transparent; border:none; color:#ef4444; font-size:1.2rem;"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('cartTotal').textContent = `Итого: ${total.toFixed(2)} ₽`;
+    }
+
+    function changeQty(index, delta) {
+        if (cart[index]) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            localStorage.setItem('shopCart', JSON.stringify(cart));
+            renderCart();
+            updateBadges();
+            renderShop();
+        }
+    }
+    function removeCartItem(index) {
+        cart.splice(index, 1);
+        localStorage.setItem('shopCart', JSON.stringify(cart));
+        renderCart();
+        updateBadges();
+        renderShop();
+    }
+
+    function checkout() {
+        if (cart.length === 0) { showNotification('Корзина пуста!'); return; }
+        showNotification('Заказ оформлен! Спасибо.');
+        cart = [];
+        localStorage.setItem('shopCart', JSON.stringify(cart));
+        renderCart();
+        updateBadges();
+        renderShop();
+        closeCartModal();
+    }
+
+    function toggleFavorite(id) {
+        const idx = favorites.indexOf(id);
+        if (idx > -1) favorites.splice(idx, 1);
+        else favorites.push(id);
+        localStorage.setItem('shopFavorites', JSON.stringify(favorites));
+        renderShop();
+        updateBadges();
+        showNotification(idx > -1 ? 'Удалено из избранного' : 'Добавлено в избранное');
+    }
+
+    function toggleFavoriteList() {
+        if (favorites.length === 0) showNotification('Избранное пусто');
+        else showNotification('В избранном: ' + favorites.map(id => products.find(p=>p.id===id)?.name).join(', '));
+    }
+
+    function toggleCompare(id) {
+        const idx = compare.indexOf(id);
+        if (idx > -1) compare.splice(idx, 1);
+        else compare.push(id);
+        localStorage.setItem('shopCompare', JSON.stringify(compare));
+        renderShop();
+        updateBadges();
+        showNotification(idx > -1 ? 'Удалено из сравнения' : 'Добавлено в сравнение');
+    }
+
+    function toggleCompareList() {
+        if (compare.length === 0) showNotification('Список сравнения пуст');
+        else showNotification('В сравнении: ' + compare.map(id => products.find(p=>p.id===id)?.name).join(', '));
+    }
+
+    function quickView(id) {
+        const product = products.find(p => p.id === id);
+        if (!product) return;
+        const modal = document.getElementById('quickViewModal');
+        const content = document.getElementById('quickViewContent');
+        content.innerHTML = `
+            <div class="left">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Фото'">
+            </div>
+            <div class="right">
+                <div class="name">${product.name}</div>
+                <div class="price">${product.price.toFixed(2)} ₽</div>
+                <div class="desc">${product.desc}</div>
+                <div style="color:#6b7280; font-size:0.9rem;">Категория: ${product.category} • Бренд: ${product.brand}</div>
+                <div class="actions">
+                    <button class="btn-primary btn-sm" onclick="toggleCart(${product.id}); closeQuickView();">В корзину</button>
+                    <button class="btn-outline btn-sm" onclick="toggleFavorite(${product.id}); closeQuickView();"><i class="fas fa-heart"></i></button>
+                    <button class="btn-outline btn-sm" onclick="toggleCompare(${product.id}); closeQuickView();"><i class="fas fa-balance-scale"></i></button>
+                </div>
+            </div>
+        `;
+        modal.classList.add('open');
+    }
+    function closeQuickView() {
+        document.getElementById('quickViewModal').classList.remove('open');
+    }
+
+    function applyFilters() {
+        currentPage = 1;
+        renderShop();
+    }
+    function resetFilters() {
+        document.getElementById('filterCategory').value = '';
+        document.getElementById('filterBrand').value = '';
+        document.getElementById('priceMin').value = '';
+        document.getElementById('priceMax').value = '';
+        document.getElementById('searchInput').value = '';
+        applyFilters();
+    }
+
+    function showNotification(text) {
+        const el = document.getElementById('notification');
+        el.textContent = text;
+        el.classList.add('show');
+        clearTimeout(el._timeout);
+        el._timeout = setTimeout(() => el.classList.remove('show'), 2500);
+    }
+
+    function updateBadges() {
+        document.getElementById('cartCount').textContent = cart.reduce((sum, i) => sum + i.qty, 0);
+        document.getElementById('favoriteCount').textContent = favorites.length;
+        document.getElementById('compareCount').textContent = compare.length;
+    }
+
+
+    // ==================== НОВЫЙ JS ДЛЯ ВКЛАДОК И ПОИСКА УСЛУГ ====================
+    let currentCatalogTab = 'services';
+
+    function switchCatalogTab(tab) {
+        currentCatalogTab = tab;
+        const tabServices = document.getElementById('tabServices');
+        const tabMerch = document.getElementById('tabMerch');
+        const catalogServices = document.getElementById('catalogServices');
+        const catalogMerch = document.getElementById('catalogMerch');
+
+        if (tab === 'services') {
+            tabServices.className = 'btn-primary btn-sm';
+            tabMerch.className = 'btn-outline btn-sm';
+            catalogServices.style.display = 'block';
+            catalogMerch.style.display = 'none';
+            loadVenuesCatalog();
+        } else {
+            tabMerch.className = 'btn-primary btn-sm';
+            tabServices.className = 'btn-outline btn-sm';
+            catalogServices.style.display = 'none';
+            catalogMerch.style.display = 'block';
+            renderShop();
+        }
+    }
+
+    // Загрузка услуг в каталог (с поиском)
+    async function loadVenuesCatalog() {
+        const searchVal = document.getElementById('searchService')?.value?.trim() || '';
+        let query = supabaseClient.from('venuestable').select('*');
+        if (searchVal) {
+            query = query.ilike('name', `%${searchVal}%`);
+        }
+        const { data, error } = await query.order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Ошибка загрузки услуг:', error);
+            return;
+        }
+
+        const grid = document.getElementById('venuesGridCatalog');
+        if (data.length === 0) {
+            grid.innerHTML = '<p style="text-align:center;color:#9ca3af;grid-column:1/-1;">Ничего не найдено</p>';
+            return;
+        }
+
+        grid.innerHTML = data.map(item => `
+            <div class="card" style="position:relative; overflow:hidden; cursor:pointer; padding:0;" onclick="openServiceDetail('${item.id}')">
+                ${item.photo_url 
+                    ? `<img src="${item.photo_url}" alt="${item.name}" style="width:100%; height:180px; object-fit:cover; border-radius:12px 12px 0 0;">` 
+                    : `<div style="height:180px; background:#1a2332; border-radius:12px 12px 0 0; display:flex; align-items:center; justify-content:center; color:#4b5563;"><i class="fas fa-image fa-3x"></i></div>`}
+                <div style="padding:16px;">
+                    <h3 style="font-size:1.2rem; margin-bottom:4px; color:#fff;">${item.name}</h3>
+                    <p style="color:#9ca3af; font-size:0.9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom:8px;">${item.description || 'Без описания'}</p>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:1.4rem; font-weight:700; color:#22d3ee;">${item.price.toFixed(2)} ₽</span>
+                        <span style="color:#6b7280; font-size:0.7rem;">${new Date(item.created_at).toLocaleDateString('ru-RU')}</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Поиск услуг (фильтр)
+    async function filterServices() {
+        loadVenuesCatalog();
+    }
+
+    function resetSearch() {
+        document.getElementById('searchService').value = '';
+        loadVenuesCatalog();
+    }
+
+
+    // ==================== ДОБАВЛЕНИЕ ТОВАРА ====================
+    document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('productName').value.trim();
+        const description = document.getElementById('productDesc').value.trim();
+        const price = parseFloat(document.getElementById('productPrice').value);
+        const category = document.getElementById('productCategory').value.trim();
+        const brand = document.getElementById('productBrand').value.trim();
+        const image = document.getElementById('productImage').value.trim();
+
+        if (!name || !price) {
+            alert('Название и цена обязательны');
+            return;
+        }
+
+        const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Вы не авторизованы');
+            return;
+        }
+
+        const { error } = await supabaseClient
+            .from('products')
+            .insert([{
+                name,
+                description,
+                price,
+                category,
+                brand,
+                image,
+                user_id: user.id
+            }]);
+
+        if (error) {
+            alert('Ошибка добавления товара: ' + error.message);
+            return;
+        }
+
+        document.getElementById('addProductForm').style.display = 'none';
+        document.getElementById('addProductSuccess').style.display = 'block';
+        setTimeout(() => {
+            closeModal('addProductModal');
+            document.getElementById('addProductForm').reset();
+            document.getElementById('addProductForm').style.display = 'block';
+            document.getElementById('addProductSuccess').style.display = 'none';
+            // Если мерч будет динамическим – потом добавим обновление
+            // пока обновляем статичный список
+            renderShop();
+        }, 2000);
+    });
+
+
+    // ==================== ПРОЧЕЕ ====================
+    // Функция загрузки услуг на главную (используется при старте)
+    // Она уже есть в коде после подключения Supabase, я её не меняю.
+
+    // Инициализация
+    renderOptions();
+    calculatePrice();
+
+    const targetDate = new Date('2026-09-15T00:00:00').getTime();
+    startCountdown(targetDate);
+    animateStats();
+    initFileUpload();
+
+    if (typeof ymaps !== 'undefined') {
+        initMap();
+    } else {
+        window.addEventListener('load', function() {
+            if (typeof ymaps !== 'undefined') initMap();
+        });
+    }
+
+    document.querySelectorAll('#eventType, #tariff, #guestCount, #duration').forEach(el => {
+        el.addEventListener('change', calculatePrice);
+        if (el.tagName === 'INPUT') el.addEventListener('input', calculatePrice);
+    });
+
+    document.getElementById('leadModal').addEventListener('click', function(e) {
+        if (e.target === this) closeLeadModal();
+    });
+
+    document.getElementById('cartModal').addEventListener('click', function(e) {
+        if (e.target === this) closeCartModal();
+    });
+    document.getElementById('quickViewModal').addEventListener('click', function(e) {
+        if (e.target === this) closeQuickView();
+    });
+
+    // При загрузке страницы – главная
+    window.addEventListener('load', function() {
+        navigateTo('home');
+        if (typeof ymaps !== 'undefined' && document.getElementById('map-container')) {
+            initMap();
+        }
+        renderShop(); // мерч
+    });
+
+    // ==================== ПОДКЛЮЧЕНИЕ SUPABASE ====================
+    // Вставляем код с Supabase (он будет после этого скрипта, но мы перенесём его в конец)
+</script>
+
+<!-- Подключаем Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // ============================================================
+    // 1. ИНИЦИАЛИЗАЦИЯ SUPABASE
+    // ============================================================
+    const SUPABASE_URL = 'https://wicbrboaccroskqwhrlt.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpY2JyYm9hY2Nyb3NrcXdocmx0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MDYzNjcsImV4cCI6MjEwMDI4MjM2N30.peTHUqqxBEMJSIImYJd0wQcLwApMhnCh_KkLsPcZBew';
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ============================================================
+    // 2. РЕГИСТРАЦИЯ, ВХОД, ВЫХОД, ПРОВЕРКА СЕССИИ (скопированы из твоего файла)
+    // ============================================================
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const company = document.getElementById('regCompany').value.trim();
+        const role = document.getElementById('regRole').value;
+
+        if (!email || !password || !company || !role) {
+            alert('Заполните все поля');
+            return;
+        }
+
+        const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    company_name: company,
+                    role: role
+                }
+            }
+        });
+
+        if (error) {
+            alert('Ошибка регистрации: ' + error.message);
+            return;
+        }
+
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('registerSuccess').style.display = 'block';
+        setTimeout(() => {
+            closeModal('registerModal');
+            document.getElementById('registerForm').reset();
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('registerSuccess').style.display = 'none';
+        }, 3000);
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+        if (error) {
+            document.getElementById('loginError').textContent = 'Ошибка: ' + error.message;
+            document.getElementById('loginError').style.display = 'block';
+            return;
+        }
+
+        closeModal('loginModal');
+        updateUIForAuth(data.user);
+        showNotification('Добро пожаловать, ' + (data.user.user_metadata.company_name || 'пользователь') + '!');
+    });
+
+    async function logout() {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) {
+            alert('Ошибка выхода: ' + error.message);
+        } else {
+            updateUIForAuth(null);
+            showNotification('Вы вышли');
+        }
+    }
+
+    async function checkSession() {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (session) {
+            updateUIForAuth(session.user);
+        } else {
+            updateUIForAuth(null);
+        }
+    }
+
+    function updateUIForAuth(user) {
+        const greeting = document.getElementById('userGreeting');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const addServiceBtn = document.getElementById('addServiceBtn');
+        const addServiceBtnCatalog = document.getElementById('addServiceBtnCatalog');
+        const addProductBtn = document.getElementById('addProductBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        const regBtn = document.getElementById('registerBtn');
+
+        if (user) {
+            const company = user.user_metadata?.company_name || 'Пользователь';
+            greeting.style.display = 'inline';
+            greeting.textContent = '👋 ' + company;
+            logoutBtn.style.display = 'inline';
+            const role = user.user_metadata?.role;
+            if (role === 'Подрядчик') {
+                if (addServiceBtn) addServiceBtn.style.display = 'inline-block';
+                if (addServiceBtnCatalog) addServiceBtnCatalog.style.display = 'inline-block';
+                if (addProductBtn) addProductBtn.style.display = 'inline-block';
+            } else {
+                if (addServiceBtn) addServiceBtn.style.display = 'none';
+                if (addServiceBtnCatalog) addServiceBtnCatalog.style.display = 'none';
+                if (addProductBtn) addProductBtn.style.display = 'none';
+            }
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (regBtn) regBtn.style.display = 'none';
+        } else {
+            greeting.style.display = 'none';
+            logoutBtn.style.display = 'none';
+            if (addServiceBtn) addServiceBtn.style.display = 'none';
+            if (addServiceBtnCatalog) addServiceBtnCatalog.style.display = 'none';
+            if (addProductBtn) addProductBtn.style.display = 'none';
+            if (loginBtn) loginBtn.style.display = 'inline-block';
+            if (regBtn) regBtn.style.display = 'inline-block';
+        }
+    }
+
+    // ============================================================
+    // 6. ОТКРЫТИЕ / ЗАКРЫТИЕ МОДАЛОК (уже есть, но добавим closeModal если отсутствует)
+    // ============================================================
+    function openAuthModal(type) {
+        if (type === 'register') {
+            document.getElementById('registerModal').classList.add('open');
+        } else if (type === 'login') {
+            document.getElementById('loginModal').classList.add('open');
+        }
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('open');
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('open');
+            }
+        });
+    });
+
+    // ============================================================
+    // 7. CRUD ДЛЯ ТАБЛИЦЫ venuestable (добавление услуги, загрузка на главную)
+    // ============================================================
+    document.getElementById('addServiceForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('serviceName').value.trim();
+        const description = document.getElementById('serviceDesc').value.trim();
+        const price = parseFloat(document.getElementById('servicePrice').value);
+        const photo_url = document.getElementById('servicePhoto').value.trim();
+
+        if (!name || !price) {
+            alert('Название и цена обязательны');
+            return;
+        }
+
+        const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Вы не авторизованы');
+            return;
+        }
+
+        const { data, error } = await supabaseClient
+            .from('venuestable')
+            .insert([{
+                name,
+                description,
+                price,
+                photo_url,
+                user_id: user.id
+            }]);
+
+        if (error) {
+            alert('Ошибка добавления: ' + error.message);
+            return;
+        }
+
+        document.getElementById('addServiceForm').style.display = 'none';
+        document.getElementById('addServiceSuccess').style.display = 'block';
+        setTimeout(() => {
+            closeModal('addServiceModal');
+            document.getElementById('addServiceForm').reset();
+            document.getElementById('addServiceForm').style.display = 'block';
+            document.getElementById('addServiceSuccess').style.display = 'none';
+            loadVenues(); // обновить главную
+            if (currentCatalogTab === 'services') loadVenuesCatalog(); // обновить каталог
+        }, 2000);
+    });
+
+    // Загрузка услуг на главную (дублируется для главной)
+    async function loadVenues() {
+        const { data, error } = await supabaseClient
+            .from('venuestable')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Ошибка загрузки услуг:', error);
+            return;
+        }
+
+        const grid = document.getElementById('venuesGrid');
+        if (!grid) return;
+
+        if (data.length === 0) {
+            grid.innerHTML = '<p style="text-align:center;color:#9ca3af;grid-column:1/-1;">Пока нет услуг</p>';
+            return;
+        }
+
+        grid.innerHTML = data.map(item => `
+            <div class="card" style="position:relative; overflow:hidden; cursor:pointer; padding:0;" onclick="openServiceDetail('${item.id}')">
+                ${item.photo_url 
+                    ? `<img src="${item.photo_url}" alt="${item.name}" style="width:100%; height:180px; object-fit:cover; border-radius:12px 12px 0 0;">` 
+                    : `<div style="height:180px; background:#1a2332; border-radius:12px 12px 0 0; display:flex; align-items:center; justify-content:center; color:#4b5563;"><i class="fas fa-image fa-3x"></i></div>`}
+                <div style="padding:16px;">
+                    <h3 style="font-size:1.2rem; margin-bottom:4px; color:#fff;">${item.name}</h3>
+                    <p style="color:#9ca3af; font-size:0.9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom:8px;">${item.description || 'Без описания'}</p>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:1.4rem; font-weight:700; color:#22d3ee;">${item.price.toFixed(2)} ₽</span>
+                        <span style="color:#6b7280; font-size:0.7rem;">${new Date(item.created_at).toLocaleDateString('ru-RU')}</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Открытие деталей услуги
+    async function openServiceDetail(id) {
+        const { data, error } = await supabaseClient
+            .from('venuestable')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) {
+            alert('Ошибка загрузки деталей');
+            console.error(error);
+            return;
+        }
+
+        const content = document.getElementById('serviceDetailContent');
+        content.innerHTML = `
+            <h2 style="color:#fff; margin-bottom:12px;">${data.name}</h2>
+            ${data.photo_url ? `<img src="${data.photo_url}" style="width:100%; max-height:300px; object-fit:cover; border-radius:12px; margin-bottom:16px;">` : ''}
+            <p style="color:#9ca3af; font-size:1rem; margin-bottom:16px;">${data.description || 'Без описания'}</p>
+            <div style="font-size:2rem; font-weight:700; color:#22d3ee; margin-bottom:8px;">${data.price.toFixed(2)} ₽</div>
+            <div style="color:#6b7280; font-size:0.9rem;">Добавлено: ${new Date(data.created_at).toLocaleDateString('ru-RU')}</div>
+            <div style="color:#6b7280; font-size:0.8rem; margin-top:8px;">ID услуги: ${data.id}</div>
+        `;
+        window.currentServiceId = id;
+        document.getElementById('serviceDetailModal').classList.add('open');
+    }
+
+    function contactVendor() {
+        alert('Функция связи будет реализована позже. ID услуги: ' + window.currentServiceId);
+    }
+
+    // ============================================================
+    // 8. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+        await checkSession();
+        await loadVenues();
+        // Если вкладка "Услуги" активна – загрузить каталог услуг
+        if (currentCatalogTab === 'services') loadVenuesCatalog();
+    });
+
+    // Экспорт глобальных функций
+    window.openAuthModal = openAuthModal;
+    window.closeModal = closeModal;
+    window.logout = logout;
+    window.loadVenues = loadVenues;
+    window.showNotification = showNotification;
+    window.openServiceDetail = openServiceDetail;
+    window.contactVendor = contactVendor;
+    window.switchCatalogTab = switchCatalogTab;
+    window.filterServices = filterServices;
+    window.resetSearch = resetSearch;
+    window.toggleCart = toggleCart;
+    window.openCartModal = openCartModal;
+    window.closeCartModal = closeCartModal;
+    window.checkout = checkout;
+    window.toggleFavorite = toggleFavorite;
+    window.toggleFavoriteList = toggleFavoriteList;
+    window.toggleCompare = toggleCompare;
+    window.toggleCompareList = toggleCompareList;
+    window.quickView = quickView;
+    window.closeQuickView = closeQuickView;
+    window.applyFilters = applyFilters;
+    window.resetFilters = resetFilters;
+</script>
+
+</body>
+</html>
